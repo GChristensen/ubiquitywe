@@ -267,10 +267,10 @@ CmdUtils.CreateCommand({
     license: "GPL",
     arguments: [{role: "object", nountype: noun_arb_text, label: "text"}],
     execute: function execute({object: {text}}) {
-        CmdUtils.setSelection(decodeURI(text));
+        CmdUtils.setSelection(decodeURIComponent(text));
     },
     preview: function preview(pblock, {object: {text}}) {
-        pblock.innerHTML = decodeURI(text);
+        pblock.innerHTML = decodeURIComponent(text);
     },
 });
 
@@ -287,10 +287,10 @@ CmdUtils.CreateCommand({
     license: "GPL",
     arguments: [{role: "object", nountype: noun_arb_text, label: "text"}],
     execute: function execute({object: {text}}) {
-        CmdUtils.setSelection(encodeURI(text));
+        CmdUtils.setSelection(encodeURIComponent(text));
     },
     preview: function preview(pblock, {object: {text}}) {
-        pblock.innerHTML = encodeURI(text);
+        pblock.innerHTML = encodeURIComponent(text);
     },
 });
 
@@ -400,7 +400,7 @@ CmdUtils.CreateCommand({
             return;
 
         pblock.innerHTML = "Checking <b>" + text + "</b>";
-        var urlString = "http://downforeveryoneorjustme.com/" + encodeURI(text);
+        var urlString = "http://downforeveryoneorjustme.com/" + encodeURIComponent(text);
 
         CmdUtils.previewGet(pblock, urlString, (resp) => {
             if (!resp) return;
@@ -418,6 +418,6 @@ CmdUtils.CreateCommand({
         if (!text)
             return;
 
-        CmdUtils.addTab("http://downforeveryoneorjustme.com/" + encodeURI(text));
+        CmdUtils.addTab("http://downforeveryoneorjustme.com/" + encodeURIComponent(text));
     }
 });

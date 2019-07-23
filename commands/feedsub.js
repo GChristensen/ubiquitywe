@@ -42,6 +42,12 @@ CmdUtils.CreateCommand({
           CmdUtils.addTab(feedlySubUrl
                           + encodeURIComponent("https://www.youtube.com/feeds/videos.xml?channel_id=" + uid));
         }
+        else {
+            let m = url.match(/youtube.com\/user\/([^\/]*)/);
+            let uid = m? m[1]: null;
+            CmdUtils.addTab(feedlySubUrl
+                + encodeURIComponent("https://www.youtube.com/feeds/videos.xml?user=" + uid));
+        }
       }
       else {
           CmdUtils.addTab(feedlySubUrl + encodeURIComponent(url));
