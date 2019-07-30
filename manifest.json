@@ -3,7 +3,7 @@
     "short_name": "UbiquityWE",
     "homepage_url": "https://gchristensen.github.io/ubiquitywe/",
     "author": "rostok, gchristnsn",
-    "version": "0.3.0.5",
+    "version": "0.3.1.0",
     "description": "WebExtension port of Ubiquity",
     "content_security_policy": "script-src 'self' 'unsafe-eval' https://maps.googleapis.com; style-src 'self' 'unsafe-inline'; object-src 'self'",
     "applications": {
@@ -32,8 +32,8 @@
           "parser/parser2.js",
           "parser/parser3.js",
           "/commands/more/nyaa.js",
+          "/commands/more/kpop.js",
           "/commands/more/javlib.js",
-          "/commands/more/soviet.js",
           "/commands/more/dark-flow.js",
           "commands/builtin.js",
           "commands/mail.js",

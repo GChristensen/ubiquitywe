@@ -88,9 +88,10 @@ function insertExampleStub() {
         container  : ".css > .selector", // result item container
         title      : ".css > .selector", // result item title
         href       : ".css > .selector", // result item link
-        thumbnail  : ".css > .selector", // result item thumbnail
+      //thumbnail  : ".css > .selector", // result item thumbnail
       //body       : ".css > .selector", // result item summary
         maxResults : 10,
+      //display: "previewList2"
     }
 });`,
 

@@ -956,32 +956,40 @@ CmdUtils.makeSearchCommand.preview = function searchPreview(pblock, {object: {te
     function onParsed(results) {
         if (parser.log) parser.log(results, "results");
         for (let k of parser.plain || [])
-            for (let r of results) r[k] = r[k] && Utils.escapeHtml(r[k]);
-        var list = "", i = 0, max = parser.maxResults || 10;
-        for (let {title, href, body, thumbnail} of results) if (title) {
-            if (href) {
-                // let key = i + 1;
-                // title = ("<kbd >" + key + "</kbd>. <a href='" + href +
-                //      "' accesskey='" + key + "'>" + title + "</a>");
-                let key = i < 35 ? (i+1).toString(36) : "-";
-                title = ("<kbd>" + key + "</kbd>. <a href='" + href +
-                    "' accesskey='" + key + "'>" + title + "</a>");
-            }
-            list += "<dt class='title'>" + title + "</dt>";
-            if (thumbnail)
-                list += "<dd class='thumbnail'><img src='" + thumbnail + "'/></dd>";
-            if (body)
-                list += "<dd class='body'>" + body + "</dd>";
-            if (++i >= max) break;
+            for (let r of results)
+                r[k] = r[k] && Utils.escapeHtml(r[k]);
+        let max = parser.maxResults || 10;
+        if (!parser.display || parser.display === "previewList") {
+            var list = "", i = 0;
+            for (let {title, href, body, thumbnail} of results)
+                if (title) {
+                    if (href) {
+                        let key = i < 35 ? (i + 1).toString(36) : "-";
+                        title = ("<kbd>" + key + "</kbd>. <a href='" + href +
+                            "' accesskey='" + key + "'>" + title + "</a>");
+                    }
+                    list += "<dt class='title'>" + title + "</dt>";
+                    if (thumbnail)
+                        list += "<dd class='thumbnail'><img src='" + thumbnail + "'/></dd>";
+                    if (body)
+                        list += "<dd class='body'>" + body + "</dd>";
+                    if (++i >= max) break;
+                }
+            put(list
+                ? ("<span class='found'>" +
+                    L("Results for %S:", queryHtml) +
+                    "</span><dl class='list'>" + list + "</dl>")
+                : ("<span class='empty'>" +
+                    L("No results for %S.", queryHtml) +
+                    "</span>"));
         }
-
-        put(list
-            ? ("<span class='found'>" +
-                L("Results for %S:", queryHtml) +
-                "</span><dl class='list'>" + list + "</dl>")
-            : ("<span class='empty'>" +
-                L("No results for %S.", queryHtml) +
-                "</span>"));
+        else
+            CmdUtils.previewList2(pblock, results.slice(0, max), {
+                text: (r) => r.title,
+                subtext: (r) => r.body,
+                thumb: parser.thumbnail? ((r) => r.thumbnail): undefined,
+                action: (r) =>  chrome.tabs.create({"url": r.href, active: false})
+            });
         CmdUtils.absUrl(pblock, parser.baseUrl);
     }
 };
@@ -1009,8 +1017,9 @@ CmdUtils.previewList = function(block, htmls, callback, css) {
     var {escapeHtml} = Utils, list = "", num = 0, CU = this;
     for (let key in htmls) {
         let k = ++num < 36 ? num.toString(36) : "-";
-        list += ('<li key="' + escapeHtml(key) + '" accesskey="' + k + '" class="preview-list-item"><span>'
-            + k + '.&nbsp;</span><span class="preview-item-text">' + htmls[key] + '</span></li>');
+        list += ('<li key="' + escapeHtml(key) + '" accesskey="' + k + '" class="preview-list-item"><span '
+             + 'class="preview-item-key">' + k + '.&nbsp;</span><span class="preview-item-text">'
+             + htmls[key] + '</span></li>');
     }
     block.innerHTML = (
         '<ol id="preview-list">' +
@@ -1035,6 +1044,95 @@ CmdUtils.previewList.CSS = `\
   #preview-list > li {position: relative; min-height: 3ex; margin-right: 3px; cursor: pointer}
   #preview-list > li:hover {outline: 1px solid;}
 `;
+
+CmdUtils.previewList2 = function(block, items, f, css) {
+    
+    let lines = [];
+    for (let i of items) {
+        let html = "";
+        let thumb = f.thumb? f.thumb(i): undefined;
+
+        if (thumb)
+            html += `<img class='image' src='${thumb}'>`
+        else
+            html += "<div></div>";
+
+        let text = f.text(i);
+        let subtext = f.subtext(i);
+
+        html += `<div class='cnt'><div class='text'>${text}</div>`;
+
+        if (subtext)
+            html += `<div class='subtext'>${subtext}</div>`;
+
+        html += "</div>";
+
+        lines.push(html);
+    }
+
+    return CmdUtils.previewList(block, lines, (i, e) => f.action(items[i], e),
+        `
+         .preview-list-item {
+            white-space: nowrap;
+            display: flex;
+            flex-flow: row nowrap;
+            align-content: center;
+         }
+         .preview-list-item > span:nthchild(1) {
+            flex 0 1 auto;
+         }
+         .preview-list-item > span:nthchild(2) {
+            flex 1 1 auto;
+         }
+         .preview-item-key {
+            display: block;
+            ${f.thumb? 'width: 18px;': 'width: 16px;'}
+            align-self: center;
+            flex 0 1 auto;
+         }
+         .preview-item-text {
+            color: #45BCFF;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 490px;
+            display: flex;
+            flex-flow: row nowrap;
+            align-content: center;
+         }
+         .image {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            float: left;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            margin-right: 5px;
+            display: inline-block;
+            flex: 0 1 auto;
+         }
+         .cnt {
+            flex: 1 1 auto;
+            min-width: 0;
+            align-self: center;
+         }
+         .subtext {
+            font-size: x-small;
+            padding-left: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #FD7221;
+         }
+         .text {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+         }
+         ${css? css: ""}`
+    );
+};
+
 
 (function ( $ ) {
     $.fn.blankify = function( url ) {

@@ -71,55 +71,48 @@
         }
     }
 
-    let reentry = false;
+    let cloudflare = false;
+    let updated_url = "";
     function make_request(pblock, url) {
         let options = {
             url: url,
             dataType: "html",
             success: function (data) {
-                reentry = false;
+                cloudflare = false;
                 get_data(pblock, data, this);
             },
             statusCode: {
                 503: function (xhr) {
-                    if (reentry)
-                        return;
+                    updated_url = url;
 
-                    reentry = true;
+                    if (!cloudflare) {
+                        cloudflare = true;
+                        pblock.innerHTML = "Waiting for Cloudflare...";
 
-                    pblock.innerHTML = "Waiting for Cloudflare...";
-                    let seed = Math.floor(Math.random() * 100000);
-                    chrome.tabs.create({active: false, url: "http://www.javlibrary.com/en?seed=" + seed}, new_tab => {
-                        let retries = 0;
-                        function checkForTitle() {
-                            chrome.tabs.executeScript(new_tab.id,
-                                {code: `___title = document.getElementsByTagName('title'); 
-                                        ___title && ___title.length > 0? ___title[0].textContent: ''`},
-                                function (title) {
-                                    if (title && title.length > 0
-                                            && title[0].toLowerCase().indexOf("javlibrary") >= 0) {
-                                        retries = 100;
-                                        setTimeout(() => {
-                                            chrome.tabs.remove(new_tab.id);
-                                            CmdUtils.previewAjax(pblock, options);
-                                        }, 2000);
-                                    }
-                                });
+                        let seed = Math.floor(Math.random() * 100000);
 
-                            if (retries < 12) {
-                                retries += 1;
-                                timeout = setTimeout(checkForTitle, 1000);
-                            }
-                            else
-                                retries = 0;
-                        }
+                        chrome.tabs.create({
+                            active: false,
+                            url: "http://www.javlibrary.com/en?__seed=" + seed
+                        }, new_tab => {
+                            let listener = (id, changed, tab) => {
+                                if (id === new_tab.id && changed.title.includes("JAVLibrary")) {
+                                    chrome.tabs.onUpdated.removeListener(listener);
 
-                        checkForTitle();
-                    });
+                                    cloudflare = false;
+                                    chrome.tabs.remove(new_tab.id);
+
+                                    options.url = updated_url;
+                                    CmdUtils.previewAjax(pblock, options);
+                                }
+                            };
+                            chrome.tabs.onUpdated.addListener(listener, {urls: ["http://*.javlibrary.com/*"]});
+                        });
+                    }
                 }
             },
             error: function (xhr) {
-                pblock.innerHTML = "Error. Wait for Cloudflare or try to wipe javlibrary.com cookies.";
+                //pblock.innerHTML = "Error. Try to wipe javlibrary.com cookies.";
             }
         };
 

@@ -13,6 +13,12 @@
         + "  </tbody>"
         + "</table>";
 
+     function pushTorrent(e) {
+         e.preventDefault();
+         let link = e.target.parentNode;
+         chrome.runtime.sendMessage("torrent-add@firefox", {type: "ADD_TORRENT", url: link.href, folder: "erotic"});
+     }
+
      function get_releases(pblock, release, list, server) {
         if (!release)
             return;
@@ -30,7 +36,7 @@
         self._nyaaRequest.open("GET", nyaURI, true);
         self._nyaaRequest.onloadend = function (e) {
 
-            if (this.status == 200) {
+            if (this.status === 200) {
                 let doc = self._nyaaRequest.response;
                 let td = pblock.querySelector("#table-si");
                 let elt = doc.querySelector("tbody tr");
@@ -71,6 +77,7 @@
                                 $(link_t).css("text-decoration", "none");
                                 $(link_t).css("font-weight", "normal");
                                 link_t.innerHTML = "<span class='u-link-download'></span>";
+                                $(link_t).attr("data-tlink", "true");
                             }
 
                             let link_m = jrow.find("td:nth-child(2) i.fa-magnet").get(0);
@@ -79,6 +86,8 @@
                                 $(link_m).css("text-decoration", "none");
                                 $(link_m).css("font-weight", "normal");
                                 link_m.innerHTML = "<span class='u-link-magnet'></span>";
+                                link_m.onclick = pushTorrent;
+                                $(link_m).attr("data-tlink", "true");
                             }
 
                             let size = jrow.find("td:nth-child(3)").get(0);
@@ -88,7 +97,7 @@
 
                             let seeds = jrow.find("td:nth-child(4)").get(0);
                             seeds.style.color = "green";
-                            
+
                             let peers = jrow.find("td:nth-child(5)").get(0);
                             peers.style.color = "red";
 
@@ -112,8 +121,10 @@
                     }
                 }
 
-                if (td)
+                if (td) {
                     td.innerHTML = "Nyaa: " + (elt ? "<br>" + elt.outerHTML : "NO");
+                    $(self._doc).find("#table-si a[data-tlink='true']").on("click", pushTorrent);
+                }
             }
 
             self._nyaaRequest = null;
@@ -131,7 +142,7 @@
         self._pantsuRequest.open("GET", pantsuURI, true);
         self._pantsuRequest.onloadend = function (e) {
 
-            if (this.status == 200) {
+            if (this.status === 200) {
                 let doc = self._pantsuRequest.response;
                 let td = pblock.querySelector("#table-cat");
                 let elt = doc.querySelector("tbody tr");
@@ -170,6 +181,8 @@
                                 $(a).css("text-decoration", "none");
                                 $(a).css("font-weight", "normal");
                                 a.innerHTML = "<span class='u-link-download'></span>";
+                                a.onclick = pushTorrent;
+                                $(a).attr("data-tlink", "true");
                                 if (server !== "www")
                                     a.remove();
                             }
@@ -184,6 +197,7 @@
                                 let parent = a.parentNode;
                                 parent.removeChild(a);
                                 parent.appendChild(a);
+                                $(a).attr("data-tlink", "true");
                             }
 
                             let dlinks = jrow.find("td:nth-child(2)").get(0);
@@ -217,8 +231,10 @@
                     }
                 }
 
-                if (td)
+                if (td) {
                     td.innerHTML = "NyaaPantsu: " + (elt ? "<br>" + elt.outerHTML : "NO");
+                    $(self._doc).find("#table-cat a[data-tlink='true']").on("click", pushTorrent);
+                }
 
             }
 
@@ -249,6 +265,10 @@
             _failureMessage: "Error.",
             /*---------------------------------------------------------------------------*/
             _perform_check: get_releases,
+            /*---------------------------------------------------------------------------*/
+            popup: function (doc) {
+                this._doc = doc;
+            },
             /*---------------------------------------------------------------------------*/
             preview: function (pblock, {object: {text}}) {
                 pblock.innerHTML = tableTemplate;
@@ -282,6 +302,7 @@
             _perform_check: get_releases,
             /*---------------------------------------------------------------------------*/
             popup: function (doc) {
+                this._doc = doc;
                 CmdUtils.loadCSS(doc, "__nyaa__", "/commands/more/fontawesome.css");
             },
             /*---------------------------------------------------------------------------*/

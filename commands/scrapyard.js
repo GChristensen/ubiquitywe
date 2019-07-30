@@ -176,6 +176,12 @@
 
 
     function unpackArgs(cmd, args) {
+
+        if (cmd.__scr_ignore_args) {
+            for (let arg of cmd.__scr_ignore_args)
+                args[arg] = undefined;
+        }
+
         let result = {
             search: args.object && args.object.text && args.object.text !== "this"? args.object.text: null,
             depth: args.source && args.source.text? args.source.text: null,
@@ -681,6 +687,11 @@
         if (options.style) {
             options.__scr_style = options.style;
             delete options.style;
+        }
+
+        if (options.ignore_args) { // workaround for stray selection
+            options.__scr_ignore_args = options.ignore_args;
+            delete options.ignore_args;
         }
 
         options = Object.assign(options, {

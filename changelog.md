@@ -1,3 +1,8 @@
+##### 30.07.2019 (v.0.3.1.0)
+
+* Improved several commands.
+* Public command API updates.
+
 ##### 30.05.2019 (v.0.3.0.0)
 
 * Added [Scrapyard](https://gchristensen.github.io/scrapyard/) commands.

@@ -28,7 +28,7 @@ of Opera browser ([ubiquity-opera](https://github.com/cosimo/ubiquity-opera/blob
 But they lacked the natural language parser which gave Ubiquity all
 its superpowers. So, I have taken UbiChr (which is simple as AK-47 internally), 
 NL-parser from the latest Ubiquity, combined them, added bells and whistles, and the fully functional 
-new Ubiquity went back to Firefox in the incarnation of UbuquityWE. 
+new Ubiquity went back to Firefox. 
 This means that it is now possible to port any "legacy" commands (that are still compatible with WebExtension APIs) 
 to Firefox Quantum with minimal changes. 
  
@@ -87,6 +87,11 @@ should be pretty easy to port one).
 
 #### Change Log
 [Full changelog](changelog.md)
+
+##### 30.07.2019 (v.0.3.1.0)
+
+* Improved several commands.
+* Public command API updates.
 
 ##### 30.05.2019 (v.0.3.0.0)
 

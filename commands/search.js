@@ -508,8 +508,11 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
             default:
                 if (day)
                     date = new Date(day + "T00:00:00");
-                else
-                    date = undefined;
+                else {
+                    date = new Date();
+                    date.setHours(0,0,0,0);
+                    date.setDate(date.getDate() - 30);
+                }
         }
         return date;
     }
@@ -598,45 +601,13 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
 
                         //historyItems = historyItems.slice(0, maxResults);
 
-                        let html = "";
-                        let items = [];
-                        for (let h of historyItems) {
-                            let text;
-                            if (h.url && !h.title)
-                                text = h.url;
-                            else
-                                text = "<div class='h-title'>" + h.title + "</div>"
-                                    + "<div class='h-url'>" + h.url + "</div>";
-
-                            items.push(text);
-                        }
-
-                        CmdUtils.previewList(pblock, items, (i, _) => {
-                                chrome.tabs.create({"url": historyItems[i].url, active: false});
-                            },
-                            `.preview-list-item {white-space: nowrap;}
-                         .preview-list-item span {display: inline-block; vertical-align: middle;}
-                         .preview-item-text {
-                            color: #45BCFF;  
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            width: 490px;
-                         }
-                         .h-url {
-                            font-size: x-small;
-                            padding-left: 10px;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            color: #f25800;
-                         }
-                         .h-title {
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                         }`
-                        );
+                        CmdUtils.previewList2(pblock, historyItems, {
+                            text: ((h) => h.url && !h.title? h.url: h.title),
+                            subtext: ((h) => h.url && !h.title? null: h.url),
+                            action: (h) =>  chrome.tabs.create({"url": h.url, active: false})
+                        });
                     }
-                });
+               });
 
         },
         execute: function(args, {Bin}) {
@@ -734,6 +705,18 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
                             break;
                     }
                 }
+
+                entry.details = "";
+
+                if (entry.year)
+                    entry.details += entry.year + ", ";
+
+                if (entry.extension)
+                    entry.details += entry.extension + ", ";
+
+                if (entry.authors)
+                    entry.details += entry.authors;
+
                 data.push(entry);
             }
             return data;
@@ -809,7 +792,6 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
                     if (order === "year")
                         query += "&sortmode=DESC";
                 }
-
             }
 
             if (amount)
@@ -822,59 +804,17 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
             let a = this._genQuery(args);
 
             libgenSearch.getJSONResults(pblock, a, books => {
-
                 if (!books || !books.length) {
                     pblock.innerHTML = "Not found."
                 }
                 else {
-                    let html = "";
-                    let items = [];
-                    for (let b of books) {
-                        let text = "<div class='h-title'>" + b.title + "</div>"
-                            + "<div class='h-url'>";
-
-                        if (b.year)
-                            text += b.year + ", ";
-
-                        if (b.extension)
-                            text += b.extension + ", ";
-
-                        if (b.authors)
-                            text += b.authors;
-
-                        text += "</div>";
-
-                        items.push(text);
-                    }
-
-                    CmdUtils.previewList(pblock, items, (i, _) => {
-                            chrome.tabs.create({"url": books[i].link, active: false});
-                        },
-                        `.preview-list-item {white-space: nowrap;}
-                 .preview-list-item span {display: inline-block; vertical-align: middle;}
-                 .preview-item-text {
-                    color: #45BCFF;  
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    width: 490px;
-                 }
-                 .h-url {
-                    font-size: x-small;
-                    padding-left: 10px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    color: #f25800;
-                 }
-                 .h-title {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                 }`
-                    );
+                    CmdUtils.previewList2(pblock, books, {
+                        text: (b) => b.title,
+                        subtext: (b) => b.details,
+                        action: (b) =>  chrome.tabs.create({"url": b.link, active: false})
+                    });
                 }
-
             });
-
         },
         execute: function(args, {Bin}) {
             chrome.tabs.create({"url": this._genQuery(args)});
@@ -910,6 +850,10 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
                                 if (article) {
                                     this._article = article.src;
                                     let citation = doc.querySelector("#citation");
+
+                                    if (citation.textContent === ".") {
+                                        citation.innerHTML = "&lt;press &apos;Enter&apos; to open the document&gt;";
+                                    }
 
                                     pblock.innerHTML = `<a style="color: #45BCFF" 
                                                        href="${article.src}">${citation.innerHTML}</a>`;
