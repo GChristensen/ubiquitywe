@@ -32,7 +32,7 @@ CmdUtils.CreateCommand({
           let uid = m? m[1]: null;
           if (uid) {
               CmdUtils.addTab(feedlySubUrl
-                  + encodeURIComponent("https://web.stagram.com/rss/n/" + uid));
+                  + encodeURIComponent("https://rsshub.app/instagram/user/" + uid));
           }
       }
       else if (/youtube.com\//.test(url)) {

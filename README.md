@@ -88,6 +88,10 @@ should be pretty easy to port one).
 #### Change Log
 [Full changelog](changelog.md)
 
+##### 31.07.2019 (v.0.3.1.1)
+
+* Disabled 'maps' command due to the lack of free public Google Maps API.
+
 ##### 30.07.2019 (v.0.3.1.0)
 
 * Improved several commands.

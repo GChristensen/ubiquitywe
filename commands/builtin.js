@@ -258,19 +258,33 @@ CmdUtils.CreateCommand({
     names: ["urldecode"],
     uuid: "C042DDB6-FD05-4CD5-9356-1725C0533568",
     _namespace: "Utility",
-    description: "urldecode",
+    description: "Decode an URL using decodeURIComponent",
+    help:  `<span class="syntax">Syntax</span>
+            <ul class="syntax">
+                <li><b>urldecode</b> <i>URL</i> [<b>by</b> <i>amount</i>]</li>
+            </ul>
+            <span class="arguments">Arguments</span><br>
+            <ul class="syntax">
+                <li>- <i>amount</i> - number, number of times to apply decodeURIComponent to the URL.</li>
+            </ul>`,
     icon: "/res/icons/encoding.png",
     builtIn: true,
-    author: {
-        name: "rostok",
+    arguments: [{role: "object", nountype: noun_arb_text, label: "text"},
+                {role: "cause",  nountype: noun_type_number, label: "amount"}, // by
+                ],
+    _decode: function(url, n) {
+        let s = url;
+        for (let i = 0; i < n; ++i)
+            s = decodeURIComponent(s);
+        return s;
     },
-    license: "GPL",
-    arguments: [{role: "object", nountype: noun_arb_text, label: "text"}],
-    execute: function execute({object: {text}}) {
-        CmdUtils.setSelection(decodeURIComponent(text));
+    execute: function execute(args) {
+        let n = args.cause && args.cause.text? parseInt(args.cause.text): 1;
+        CmdUtils.setSelection(this._decode(args.object.text, n));
     },
-    preview: function preview(pblock, {object: {text}}) {
-        pblock.innerHTML = decodeURIComponent(text);
+    preview: function preview(pblock, args) {
+        let n = args.cause && args.cause.text? parseInt(args.cause.text): 1;
+        pblock.innerHTML = this._decode(args.object.text, n);
     },
 });
 
@@ -278,13 +292,9 @@ CmdUtils.CreateCommand({
     names: ["urlencode"],
     uuid: "80F43371-F330-4685-A153-9A493B07A553",
     _namespace: "Utility",
-    description: "urlencode",
+    description: "Encode an URL using encodeURIComponent",
     icon: "/res/icons/encoding.png",
     builtIn: true,
-    author: {
-        name: "rostok",
-    },
-    license: "GPL",
     arguments: [{role: "object", nountype: noun_arb_text, label: "text"}],
     execute: function execute({object: {text}}) {
         CmdUtils.setSelection(encodeURIComponent(text));
@@ -350,36 +360,35 @@ CmdUtils.CreateCommand({
     license: "GPL",
     arguments: [{role: "object", nountype: noun_arb_text, label: "text"}],
     preview: async function (pblock, {object: {text}}) {
-        var host = text? text: CmdUtils.getLocation();
-        if (!host)
-            pblock.innerHTML = "No URL is provided.";
-        else
-            pblock.innerHTML = "Shortens " + host + " with bit.ly and copies it into clipboard.";
-    },
-    execute: async function ({object: {text}}) {
-        var url = "http://api.bit.ly/shorten?version=2.0.1&longUrl={QUERY}&login=" +
-            bitly_api_user + "&apiKey=" + bitly_api_key;
+        this._short_url = undefined;
+        let url = "http://api.bit.ly/shorten?version=2.0.1&longUrl={QUERY}&login=" + bitly_api_user
+                + "&apiKey=" + bitly_api_key;
+
         var query = text;
         // Get the url from current open tab if none specified
         if (!query) query = CmdUtils.getLocation();
         if (!query) return;
         var urlString = url.replace("{QUERY}", query);
 
-        var url = "http://api.bit.ly/shorten?version=2.0.1&longUrl={QUERY}&login=" + bitly_api_user + "&apiKey=" + bitly_api_key;
         // Get the url from current open tab if none specified
-        var ajax = await CmdUtils.get(urlString);
-        //ajax = JSON.parse(ajax);
-        //if (!ajax) return;
-        var err_code = ajax.errorCode;
-        var err_msg = ajax.errorMessage;
-        // Received an error from bit.ly API?
-        if (err_code > 0 || err_msg) {
-            CmdUtils.setPreview('<br/><p style="font-size: 18px; color:orange">' + 'Bit.ly API error ' + err_code + ': ' + err_msg + '</p>');
-            return;
-        }
+        var ajax = await CmdUtils.previewGet(pblock, urlString, ajax => {
+            var err_code = ajax.errorCode;
+            var err_msg = ajax.errorMessage;
+            // Received an error from bit.ly API?
+            if (err_code > 0 || err_msg) {
+                pblock.innerHTML = '<br/><p style="font-size: 18px; color:orange">'
+                    + 'Bit.ly API error ' + err_code + ': ' + err_msg + '</p>';
+                return;
+            }
 
-        var short_url = ajax.results[query].shortUrl;
-        CmdUtils.setClipboard(short_url);
+            this._short_url = ajax.results[query].shortUrl;
+            pblock.innerHTML = `Shortened <b>${query}</b> to: 
+                                <span style="color: #45BCFF">${this._short_url}</span>. <br><br>
+                                Press 'Enter' to copy the result to clipboard.<br>`
+        }, "json");
+    },
+    execute: async function ({object: {text}}) {
+        CmdUtils.setClipboard(this._short_url);
     }
 });
 
@@ -400,16 +409,16 @@ CmdUtils.CreateCommand({
             return;
 
         pblock.innerHTML = "Checking <b>" + text + "</b>";
-        var urlString = "http://downforeveryoneorjustme.com/" + encodeURIComponent(text);
+        var urlString = "https://isitdown.site/api/v3/" + encodeURIComponent(text);
 
         CmdUtils.previewGet(pblock, urlString, (resp) => {
             if (!resp) return;
-            if (resp.match('is up.')) {
-                CmdUtils.setPreview('It\'s just you. The site is <b>up!</b>');
-            } else {
+            if (resp.isitdown) {
                 CmdUtils.setPreview('It\'s <b>not</b> just you. The site is <b>down!</b>');
+            } else {
+                CmdUtils.setPreview('It\'s just you. The site is <b>up!</b>');
             }
-        });
+        }, "json");
     },
     execute: async function ({object: {text}}) {
         if (!text)

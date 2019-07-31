@@ -983,13 +983,19 @@ CmdUtils.makeSearchCommand.preview = function searchPreview(pblock, {object: {te
                     L("No results for %S.", queryHtml) +
                     "</span>"));
         }
-        else
-            CmdUtils.previewList2(pblock, results.slice(0, max), {
-                text: (r) => r.title,
-                subtext: (r) => r.body,
-                thumb: parser.thumbnail? ((r) => r.thumbnail): undefined,
-                action: (r) =>  chrome.tabs.create({"url": r.href, active: false})
-            });
+        else {
+            if (results.length)
+                CmdUtils.previewList2(pblock, results.slice(0, max), {
+                    text: (r) => r.title,
+                    subtext: (r) => r.body,
+                    thumb: parser.thumbnail ? ((r) => r.thumbnail) : undefined,
+                    action: (r) => chrome.tabs.create({"url": r.href, active: false})
+                });
+            else
+                put("<span class='empty'>" +
+                    L("No results for %S.", queryHtml) +
+                    "</span>");
+        }
         CmdUtils.absUrl(pblock, parser.baseUrl);
     }
 };
@@ -1104,6 +1110,7 @@ CmdUtils.previewList2 = function(block, items, f, css) {
             width: 32px;
             height: 32px;
             object-fit: contain;
+            align-self: center;
             float: left;
             margin-top: 5px;
             margin-bottom: 5px;

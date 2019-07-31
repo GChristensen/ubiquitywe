@@ -13,13 +13,16 @@
         + "  </tbody>"
         + "</table>";
 
-     function pushTorrent(e) {
-         e.preventDefault();
-         let link = e.target.parentNode;
-         chrome.runtime.sendMessage("torrent-add@firefox", {type: "ADD_TORRENT", url: link.href, folder: "erotic"});
+    function pushTorrent(list) {
+         return function (e) {
+             e.preventDefault();
+             let link = e.target.parentNode;
+             chrome.runtime.sendMessage("torrent-add@firefox", {type: "ADD_TORRENT", url: link.href,
+                 folder: list === "JAV"? "erotic": "anime"});
+         };
      }
 
-     function get_releases(pblock, release, list, server) {
+    function get_releases(pblock, release, list, server) {
         if (!release)
             return;
 
@@ -123,7 +126,7 @@
 
                 if (td) {
                     td.innerHTML = "Nyaa: " + (elt ? "<br>" + elt.outerHTML : "NO");
-                    $(self._doc).find("#table-si a[data-tlink='true']").on("click", pushTorrent);
+                    $(self._doc).find("#table-si a[data-tlink='true']").on("click", pushTorrent(list));
                 }
             }
 
@@ -233,7 +236,7 @@
 
                 if (td) {
                     td.innerHTML = "NyaaPantsu: " + (elt ? "<br>" + elt.outerHTML : "NO");
-                    $(self._doc).find("#table-cat a[data-tlink='true']").on("click", pushTorrent);
+                    $(self._doc).find("#table-cat a[data-tlink='true']").on("click", pushTorrent(list));
                 }
 
             }
