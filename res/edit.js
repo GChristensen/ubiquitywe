@@ -97,7 +97,7 @@ function insertExampleStub() {
 
 
         'insertcapturestub': // capture pages to Scrapyard
-`CmdUtils.makeCaptureCommand({  // Capture page in the current tab to Scrapyard
+`CmdUtils.makeCaptureCommand({  // Capture the current tab to Scrapyard
     name: "my-capture-command",
     uuid: "%%UUID%%",
     type: "archive",  // also "bookmark"
@@ -106,9 +106,9 @@ function insertExampleStub() {
  // todo: "TODO",  // also "WAITING", "POSTPONED", etc...
  // due: "YYYY-MM-DD",  // todo deadline
  // details: "bookmark details",  // arbitrary text
- // selector: ".article-body",  // capture only elements matching selector
- // filter: ".ads",  // remove elements matched by filter
- // style: "body {padding: 0;}"  // add custom style
+ // selector: ".article-body",  // capture only elements matching the selectors
+ // filter: ".ads,video",  // remove elements matched by the filter selectors
+ // style: "body {padding: 0;}"  // add custom CSS style
 });`
     };
 

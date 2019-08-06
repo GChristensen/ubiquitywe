@@ -243,8 +243,7 @@
             {role: "format",     nountype: {"group": [NODE_TYPE_GROUP],
                     "bookmark": [NODE_TYPE_BOOKMARK],
                     "archive": [NODE_TYPE_ARCHIVE],
-                    "content": SEARCH_TYPE_CONTENT,
-                    "firefox": SEARCH_TYPE_FIREFOX},
+                    "content": SEARCH_TYPE_CONTENT},
                 label: "type"}, // in
             //{role: "modifier",   nountype: noun_arb_text, label: "text"}, // of
             {role: "alias",      nountype: noun_scrapyard_tag, label: "tags"}, // as
@@ -276,7 +275,6 @@
                     <li><b>bookmark</b> - return only bookmarks.</li> 
                     <li><b>archive</b> - return only archives.</li>
                     <li><b>content</b> - search by content.</li>
-                    <li><b>firefox</b> - search in Firefox bookmarks.</li>
                  </ul></li>
                 </li>
             </ul>
@@ -334,7 +332,7 @@
                                 text = "<img class='n-image' src='" + n.icon + "'>"
                             }
                             else
-                                text = "<img class='n-image' src='/res/icons/homepage.png'>";
+                                text = "<img class='n-image' src='/res/icons/globe.svg'>";
 
 
                             if (n.uri && !n.name)
@@ -538,12 +536,17 @@
 
             let test_default_favicon = () => {
                 let favicon = new URL(CmdUtils.active_tab.url).origin + "/favicon.ico";
-                fetch(favicon, {method: "HEAD"})
+                fetch(favicon, {method: "GET"})
                     .then(response => {
-                        if (response.ok)
-                            payload.icon = favicon.toString();
-                        send();
-                    });
+                        let type = response.headers.get("content-type") || "image";
+                        if (response.ok && type.startsWith("image"))
+                            response.arrayBuffer().then(bytes => {
+                                        payload.icon = bytes.byteLength? favicon.toString(): undefined;
+                                        send();
+                                    });
+                        else
+                            send();
+                    }).catch(() => send());
             };
 
             chrome.tabs.executeScript(CmdUtils.active_tab.id, {

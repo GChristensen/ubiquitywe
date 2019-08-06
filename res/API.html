@@ -22,10 +22,6 @@
 <br clear="all"/>
 
 <h2><a id="user-content-ubiquitywe-api-reference" class="anchor" aria-hidden="true" href="#ubiquitywe-api-reference"></a>UbiquityWE API Reference</h2>
-<h3><a id="user-content-active_tab" class="anchor" aria-hidden="true" href="#active_tab"></a>CmdUtils.active_tab</h3>
-<blockquote>
-    <p>Object with information about the currently active tab which contains <b>id</b>, <b>url</b> and <b>title</b> properties.</p>
-</blockquote>
 <h3><a id="user-content-_string-data" class="anchor" aria-hidden="true" href="#_string-data"></a>_(string, data)</h3>
 <blockquote>
     <p>A shortcut for CmdUtils.renderTemplate.  <br>Note: in the original Ubiquity this shortcut provided internationalization support.
@@ -172,7 +168,7 @@
             (and thus be HTML-escaped).</li>
           <li><strong>parser.log</strong> - a function to which the response data and parsed results are logged.
             If non-function, <strong>makeSearchCommand.log()</strong> is used.</li>
-          <li><strong>parser.display</strong> - output display options. Possible values: "previewList2".</li>
+          <li><strong>parser.display<span class="since" style="font-size: 100%">0.3.0</span></strong> - output display options. Possible values: "previewList2".</li>
         </ul>
       </li>
     </ul>
@@ -217,7 +213,8 @@
       <li><strong>css</strong> is an optional CSS string inserted along with the list.</li>
     </ul>
   </blockquote>
-<h3><a id="user-content-cmdutilspreviewlist2" class="anchor" aria-hidden="true" href="#cmdutilspreviewlist2"></a>CmdUtils.previewList2(block, items, f, [css])</h3>
+<h3><a id="user-content-cmdutilspreviewlist2" class="anchor" aria-hidden="true" href="#cmdutilspreviewlist2"></a>CmdUtils.previewList2(block, items, f, [css])
+    <span class="since">0.3.0</span></h3>
 <blockquote>
     <p>Creates an advanced clickable list in the preview block and
         returns the list element.</p>
@@ -350,17 +347,23 @@
         <li><strong>callback</strong> - callback function that receives Bin object.</li>
     </ul>
 </blockquote>
-<h3><a id="user-content-getcommandline" class="anchor" aria-hidden="true" href="#getcommandline"></a>CmdUtils.getCommandLine()</h3>
+<h3><a id="user-content-active_tab" class="anchor" aria-hidden="true" href="#active_tab"></a>CmdUtils.getActiveTab() <span class="since">0.3.0</span></h3>
+<blockquote>
+    <p>Returns <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/Tab">Tab</a> object of the currently active tab.
+        May return <b>null</b> for the special tabs.</p>
+</blockquote>
+<h3><a id="user-content-getcommandline" class="anchor" aria-hidden="true" href="#getcommandline"></a>CmdUtils.getCommandLine() <span class="since">0.3.0</span></h3>
 <blockquote>
     <p>Returns the current user input.</p>
 </blockquote>
-<h3><a id="user-content-setcommandline" class="anchor" aria-hidden="true" href="#setcommandline"></a>CmdUtils.setCommandLine(text)</h3>
+<h3><a id="user-content-setcommandline" class="anchor" aria-hidden="true" href="#setcommandline"></a>CmdUtils.setCommandLine(text) <span class="since">0.3.0</span></h3>
 <blockquote>
     <p>Sets content of the command line.</p>
     <ul>
         <li><strong>text</strong> - command text.</li>
     </ul>
 </blockquote>
+
 
 <h2><a id="user-content-built-in-noun-types" class="anchor" aria-hidden="true" href="#built-in-noun-types"></a>Built-in Noun Types</h2>
 <p>NounType system of the Ubiquity parser is a powerful tool which allows to
