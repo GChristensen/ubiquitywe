@@ -542,6 +542,10 @@ CmdUtils._internalClearSelection = function() {
     CmdUtils.selectedHtml = "";
 };
 
+CmdUtils.getActiveTab = function () {
+    return CmdUtils.active_tab;
+};
+
 // called when tab is switched or changed, updates selectedText and activeTab
 CmdUtils.updateActiveTab = function (callback) {
     CmdUtils.active_tab = null;

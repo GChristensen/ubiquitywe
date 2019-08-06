@@ -440,7 +440,6 @@ ul.arguments {
   list-style: none;
 }
 
-
 .key-container {
   display: flex;
 }
@@ -456,4 +455,14 @@ ul.arguments {
 
 .advanced {
   margin: 5px;
+}
+
+.since {
+  color: white;
+  background: #66bb00;
+  padding: 2px;
+  border-radius: 3px;
+  font-weight: normal;
+  font-size: 80%;
+  margin-left: 10px;
 }
