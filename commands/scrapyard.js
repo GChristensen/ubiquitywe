@@ -259,13 +259,13 @@
                 <li>- <i>filter</i> - arbitrary text, filters bookmarks by title, URL or content, depending on <i>type</i> parameter.</li>
             </ul>
             <ul class="syntax">
-                <li>- <i>path</i> - limit the scope of search to the specified path. The default shelf is designated by '~' character.</li>
+                <li>- <i>path</i> - limits the scope of search to the specified path. The default shelf is designated by '~' character.</li>
             </ul>
             <ul class="syntax">
                 <li>- <i>depth</i> 
                  <li><ul class="arguments">
                     <li><b>group</b> - return only bookmarks found in the specified path.</li> 
-                    <li><b>subtree</b> - search in subfolders.</li>
+                    <li><b>subtree</b> - search in subfolders (default).</li>
                  </ul></li>
                 </li>
             </ul>
@@ -613,7 +613,7 @@
                 <li>- <i>title</i> - bookmark title. The current tab name used if not specified.</li>
             </ul>
             <ul class="syntax">
-                <li>- <i>path</i> - limit the scope of search to the specified path. The default shelf is designated by '~' character.</li>
+                <li>- <i>path</i> - limits the scope of search to the specified path. The default shelf is designated by '~' character.</li>
             </ul>
             <ul class="syntax">
                 <li>- <i>tags</i> - assigns a comma-separated list of tags to the created archive.</li>
