@@ -201,8 +201,10 @@
         if (!result.limit)
             result.limit = DEFAULT_OUTPUT_LIMIT;
 
+        let selection = CmdUtils.getSelection();
+
         for (let k of Object.keys(result)) {
-            if (!result[k] || result[k] === CmdUtils.getSelection())
+            if (!result[k] || result[k] === selection)
                 delete result[k];
         }
 
