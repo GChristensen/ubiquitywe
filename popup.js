@@ -501,8 +501,6 @@ $(window).on('load', function() {
 });
 
 $(window).on('unload', function() {
-    CmdUtils.selectedText = "";
-    CmdUtils.selectedHtml = "";
     CmdUtils.commandHistoryPush(ubiq_get_input());
     if (/*CmdUtils.DEBUG &&*/ ubiq_selected_sent)
         ubiq_parser.strengthenMemory(ubiq_selected_sent);
