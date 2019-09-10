@@ -566,7 +566,7 @@ Utils.callPersistent = function (uuid, obj, f) {
             try {
                 f.apply(obj, new_args);
             } catch (e) {
-                console.log(e);
+                console.log(e.toString());
             }
             resolve();
         });
