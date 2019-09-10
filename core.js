@@ -16,10 +16,6 @@ switch(window.location.protocol) {
 		s.type = "text/javascript";
 		s.src = "cmdutils.js";
 		head.appendChild(s);
-		s = document.createElement("script");
-		s.type = "text/javascript";
-		s.src = "commands.js";
-		head.appendChild(s);
 		break;
 
    case 'chrome-extension:':

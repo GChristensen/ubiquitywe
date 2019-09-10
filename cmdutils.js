@@ -317,7 +317,9 @@ CmdUtils._executeContextMenuItem = function(command, contextMenuCmdData) {
             && query.suggestionList.length > 0? query.suggestionList[0]: null;
             if (sent && sent.getCommand().uuid.toLowerCase() === commandDef.uuid.toLowerCase()) {
 
-                Utils.callPersistent(sent.getCommand().uuid, sent, sent.execute);
+                Utils.callPersistent(sent.getCommand().uuid, sent, sent.execute).then(() => {
+                    CmdUtils._internalClearSelection();
+                });
 
                 if (CmdUtils.rememberContextMenuCommands)
                     CmdUtils.commandHistoryPush(contextMenuCmdData.command);

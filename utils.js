@@ -241,7 +241,7 @@ Utils.urlToParams = function urlToParams(url) {
         dict = {
             __proto__: null
         };
-    for (let param of /^(?:[^?]*\?)?([^#]*)/.exec(url)[1].split("&")) {
+    for (let param of (/^(?:[^?]*\?)?([^#]*)/).exec(url)[1].split("&")) {
         let [key, val] = /[^=]*(?==?(.*))/.exec(param);
         val = val.replace(/\+/g, " ");
         try {
@@ -559,10 +559,17 @@ Utils.makeBin = function(uuid, callback) {
 
 Utils.callPersistent = function (uuid, obj, f) {
     let args = arguments;
-    Utils.makeBin(uuid, bin => {
-        let new_args = Array.prototype.slice.call(args, 3);
-        new_args.push({Bin: bin});
-        f.apply(obj, new_args);
+    return new Promise((resolve, reject) => {
+        Utils.makeBin(uuid, bin => {
+            let new_args = Array.prototype.slice.call(args, 3);
+            new_args.push({Bin: bin});
+            try {
+                f.apply(obj, new_args);
+            } catch (e) {
+                console.log(e);
+            }
+            resolve();
+        });
     });
 };
 

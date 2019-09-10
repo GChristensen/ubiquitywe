@@ -132,7 +132,10 @@ function ubiq_execute(input) {
     if (ubiq_selected_sent) {
         CmdUtils.commandHistoryPush(input);
         CmdUtils.closePopup();
-        Utils.callPersistent(ubiq_selected_sent.getCommand().uuid, ubiq_selected_sent, ubiq_selected_sent.execute);
+        Utils.callPersistent(ubiq_selected_sent.getCommand().uuid, ubiq_selected_sent, ubiq_selected_sent.execute)
+            .then(() => {
+                CmdUtils._internalClearSelection();
+            });
     }
 }
 
