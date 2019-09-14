@@ -47,7 +47,7 @@
 
     function scrapyardSend(message, payload) {
         let msg = Object.assign({type: message}, payload? payload: {})
-        return browser.runtime.sendMessage("scrapyard@firefox", msg);
+        return browser.runtime.sendMessage("scrapyard-we@firefox", msg);
     }
 
     function openListSuggestion(text, html, cb, selectionIndices) {
