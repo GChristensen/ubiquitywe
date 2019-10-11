@@ -47,7 +47,7 @@
 
     function scrapyardSend(message, payload) {
         let msg = Object.assign({type: message}, payload? payload: {})
-        return browser.runtime.sendMessage("scrapyard-we@firefox", msg);
+        return browser.runtime.sendMessage(CmdUtils.SCRAPYARD_ID, msg);
     }
 
     function openListSuggestion(text, html, cb, selectionIndices) {
@@ -174,6 +174,10 @@
         updateTagSuggestions();
     }
 
+    let getArgumentText = arg =>
+        arg && arg.text && arg.text !== CmdUtils.getSelection() && arg.text !== "this"
+            ? arg.text
+            : null;
 
     function unpackArgs(cmd, args) {
 
@@ -182,17 +186,33 @@
                 args[arg] = undefined;
         }
 
+        // let result = {
+        //     search: args.object && args.object.text && args.object.text !== "this"? args.object.text: null,
+        //     depth: args.source && args.source.text? args.source.text: null,
+        //     path:  (args.time && args.time.text? args.time.text: null) || cmd.__scr_path,
+        //     tags:  (args.alias && args.alias.text? args.alias.text: null) || cmd.__scr_tags,
+        //     limit: args.cause && args.cause.text? args.cause.text: null,
+        //     types: args.format && args.format.text? args.format.data: null,
+        //     todo_state: (args.instrument && args.instrument.text? args.instrument.data: null)
+        //         || (cmd.__scr_todo? todo_states[cmd.__scr_todo.toUpperCase()]: undefined),
+        //     todo_date:  (args.goal && args.goal.text? args.goal.text: null) || cmd.__scr_due,
+        //     details:  (args.subject && args.subject.text? args.subject.text: null) || cmd.__scr_details,
+        //     _selector: cmd.__scr_selector,
+        //     _filter: cmd.__scr_filter,
+        //     _style: cmd.__scr_style
+        // };
+
         let result = {
-            search: args.object && args.object.text && args.object.text !== "this"? args.object.text: null,
-            depth: args.source && args.source.text? args.source.text: null,
-            path:  (args.time && args.time.text? args.time.text: null) || cmd.__scr_path,
-            tags:  (args.alias && args.alias.text? args.alias.text: null) || cmd.__scr_tags,
-            limit: args.cause && args.cause.text? args.cause.text: null,
+            search: getArgumentText(args.object),
+            depth: getArgumentText(args.source),
+            path:  getArgumentText(args.time) || cmd.__scr_path,
+            tags:  getArgumentText(args.alias) || cmd.__scr_tags,
+            limit: getArgumentText(args.cause),
             types: args.format && args.format.text? args.format.data: null,
             todo_state: (args.instrument && args.instrument.text? args.instrument.data: null)
-                || (cmd.__scr_todo? todo_states[cmd.__scr_todo.toUpperCase()]: undefined),
-            todo_date:  (args.goal && args.goal.text? args.goal.text: null) || cmd.__scr_due,
-            details:  (args.subject && args.subject.text? args.subject.text: null) || cmd.__scr_details,
+                            || (cmd.__scr_todo? todo_states[cmd.__scr_todo.toUpperCase()]: undefined),
+            todo_date:  getArgumentText(args.goal) || cmd.__scr_due,
+            details:  getArgumentText(args.subject) || cmd.__scr_details,
             _selector: cmd.__scr_selector,
             _filter: cmd.__scr_filter,
             _style: cmd.__scr_style

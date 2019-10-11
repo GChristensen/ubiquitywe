@@ -187,9 +187,11 @@ $(() => {
         function editNamespaceScripts(all_scripts, namespace) {
             let namespace_scripts = all_scripts[namespace];
             if (namespace_scripts)
-                return editor.setValue(namespace_scripts.scripts || "", -1);
+                editor.setValue(namespace_scripts.scripts || "", -1);
             else
-                return editor.setValue("");
+                editor.setValue("");
+
+            editor.getSession().setUndoManager(new ace.UndoManager())
         }
 
         $("#upload").click((e) => {

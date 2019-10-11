@@ -2,8 +2,8 @@
   "addons": {
     "ubiquitywe@firefox": {
       "updates": [{
-          "version": "0.3.1.16",
-          "update_link": "https://github.com/GChristensen/ubiquitywe/releases/download/v0.3.1.16/ubiquity_webeextension.xpi"
+          "version": "0.3.1.18",
+          "update_link": "https://github.com/GChristensen/ubiquitywe/releases/download/v0.3.1.18/ubiquity_webeextension.xpi"
         }
 
       ]

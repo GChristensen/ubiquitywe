@@ -9,6 +9,7 @@ if (!CmdUtils) var CmdUtils = {
             ? "Firefox"
             : "Chrome")
         : undefined,
+    SCRAPYARD_ID: "scrapyard-we@firefox",
     parserVersion: 3,
     CommandList: [],
     DisabledCommands: {},

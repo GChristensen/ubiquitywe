@@ -17,7 +17,7 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
         parser: {
             container  : ".rc",
             href       : "a",
-            title      : "h3 div",
+            title      : "h3, h3 div",
             body       : ".st",
             maxResults : maxSearchResults,
         },

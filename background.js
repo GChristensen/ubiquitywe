@@ -112,27 +112,32 @@ chrome.tabs.onHighlighted.addListener(function (higInfo) {
     CmdUtils.updateActiveTab();
 });
 
-chrome.management.onInstalled.addListener((info) => {
-    if (info.id === "scrapyard-we@firefox")
-        Utils.setPref("scrapyardPresents", true, () => chrome.runtime.reload());
-});
+// Scrapyard integration
+Utils.getPref("scrapyardID", scrapyardID => {
+    if (scrapyardID)
+        CmdUtils.SCRAPYARD_ID = scrapyardID;
 
-chrome.management.onUninstalled.addListener((info) => {
-    if (info.id === "scrapyard-we@firefox")
-        Utils.setPref("scrapyardPresents", false, () => chrome.runtime.reload());
-});
-
-function checkForScrapyard() {
-    chrome.runtime.sendMessage("scrapyard-we@firefox", {type: "SCRAPYARD_GET_VERSION"}, version => {
-        if (version) {
-            Utils.setPref("scrapyardPresents", true);
-
-            if (CmdUtils.scrapyardCommands && CmdUtils.CommandList.indexOf(CmdUtils.scrapyardCommands[0]) < 0)
-                CmdUtils.CommandList = [...CmdUtils.CommandList, ...CmdUtils.scrapyardCommands];
-        }
+    chrome.management.onInstalled.addListener((info) => {
+        if (info.id === CmdUtils.SCRAPYARD_ID)
+            Utils.setPref("scrapyardPresents", true, () => chrome.runtime.reload());
     });
-}
 
-chrome.runtime.onInstalled.addListener(checkForScrapyard);
-setTimeout(checkForScrapyard, 5000);
+    chrome.management.onUninstalled.addListener((info) => {
+        if (info.id === CmdUtils.SCRAPYARD_ID)
+            Utils.setPref("scrapyardPresents", false, () => chrome.runtime.reload());
+    });
 
+    function checkForScrapyard() {
+        chrome.runtime.sendMessage(CmdUtils.SCRAPYARD_ID, {type: "SCRAPYARD_GET_VERSION"}, version => {
+            if (version) {
+                Utils.setPref("scrapyardPresents", true);
+
+                if (CmdUtils.scrapyardCommands && CmdUtils.CommandList.indexOf(CmdUtils.scrapyardCommands[0]) < 0)
+                    CmdUtils.CommandList = [...CmdUtils.CommandList, ...CmdUtils.scrapyardCommands];
+            }
+        });
+    }
+
+    chrome.runtime.onInstalled.addListener(checkForScrapyard);
+    setTimeout(checkForScrapyard, 5000);
+});
