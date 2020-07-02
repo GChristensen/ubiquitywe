@@ -573,12 +573,12 @@
 
             chrome.tabs.executeScript(CmdUtils.active_tab.id, {
                     code: `function extractIcon() {
-                let iconElt = document.querySelector("head link[rel*='icon'], head link[rel*='shortcut']");
-                if (iconElt)
-                    return iconElt.href;
-            }
-            extractIcon();
-            `
+                                let iconElt = document.querySelector("head link[rel*='icon'], head link[rel*='shortcut']");
+                                if (iconElt)
+                                    return iconElt.href;
+                            }
+                            extractIcon();
+                            `
                 },
                 icon => {
                     if (chrome.runtime.lastError) {
@@ -592,6 +592,10 @@
                         test_default_favicon();
                     }
                 });
+
+            if (noun_scrapyard_group._items && !noun_scrapyard_group._items.includes(payload.path)) {
+                noun_scrapyard_group._items.push(payload.path);
+            }
         };
     }
 

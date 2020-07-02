@@ -17,7 +17,7 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
         parser: {
             container  : ".rc",
             href       : "a",
-            title      : "h3, h3 div",
+            title      : "h3 div, h3",
             body       : ".st",
             maxResults : maxSearchResults,
         },
@@ -616,7 +616,7 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
 
 
 
-    const LIBGEN_HOST = "https://libgen.is/";
+    const LIBGEN_HOST = "http://libgen.li/";
     const LIBGEN_HOST2 = "http://libgen.io/";
 
     var libgenSearch = {
@@ -731,7 +731,7 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
                     {role: "instrument", nountype: ["asc", "desc"], label: "sort mode"}, // with
                     {role: "modifier",   nountype: ["year", "title", "author"], label: "order"}, // of
                     {role: "cause",      nountype: ["25", "50", "100"], label: "amount"}, // by
-                    {role: "time",       nountype: ["libgen.io", "libgen.is"], label: "server"}, // at
+                    {role: "time",       nountype: ["libgen.io", "libgen.li"], label: "server"}, // at
         ],
         description: "Search Library Genesis",
         help:  `<span class="syntax">Syntax</span>
@@ -749,7 +749,7 @@ Utils.getPref("maxSearchResults", maxSearchResults => {
                 <li>- <i>sort mode</i> - {<b>asc</b> | <b>desc</b>}, specifies sort mode.</li>
             </ul>
             <ul class="syntax">
-                <li>- <i>server</i> - {<b>libgen.is</b> | <b>libgen.io</b>}.</li>
+                <li>- <i>server</i> - {<b>libgen.li</b> | <b>libgen.io</b>}.</li>
             </ul>
             <ul class="syntax">
                 <li>- <i>amount</i> - {<b>25</b> | <b>50</b> | <b>100</b> }, specifies the maximum amount of listed items.</li>

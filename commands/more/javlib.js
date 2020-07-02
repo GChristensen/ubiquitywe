@@ -96,7 +96,7 @@
                             url: "http://www.javlibrary.com/en?__seed=" + seed
                         }, new_tab => {
                             let listener = (id, changed, tab) => {
-                                if (id === new_tab.id && changed.title.includes("JAVLibrary")) {
+                                if (id === new_tab.id && changed.title && changed.title.includes("JAVLibrary")) {
                                     chrome.tabs.onUpdated.removeListener(listener);
 
                                     cloudflare = false;
@@ -106,7 +106,7 @@
                                     CmdUtils.previewAjax(pblock, options);
                                 }
                             };
-                            chrome.tabs.onUpdated.addListener(listener, {urls: ["http://*.javlibrary.com/*"]});
+                            chrome.tabs.onUpdated.addListener(listener, {urls: ["*://*.javlibrary.com/*"]});
                         });
                     }
                 }

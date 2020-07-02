@@ -314,7 +314,8 @@
                 this._perform_check(pblock, text, "JAV", "sukebei");
             },
             /*---------------------------------------------------------------------------*/
-            execute: function () {
+            execute: function ({object: {text}}) {
+                CmdUtils.addTab("https://sukebei.nyaa.si/?f=0&c=0_0&q=" + encodeURIComponent(text));
             }
         });
 }
