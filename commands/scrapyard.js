@@ -58,7 +58,7 @@
                 i.match = matcher.exec(i.path || i.name);
                 return !!i.match;
             }).map(i => CmdUtils.makeSugg(i.path || i.name, i.path || i.name, null,
-                CmdUtils.matchScore(i.match), selectionIndices));
+                i.match.input? CmdUtils.matchScore(i.match): .0001, selectionIndices));
 
             let textSugg = CmdUtils.makeSugg(text, html, null, suggs.length ? .001 : 1, selectionIndices);
             if (textSugg)
