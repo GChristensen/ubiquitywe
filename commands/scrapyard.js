@@ -51,20 +51,22 @@
     }
 
     function openListSuggestion(text, html, cb, selectionIndices) {
-        let textSugg;
-        let matcher = new RegExp(text, "i");
+        if (text) {
+            let matcher = new RegExp(text, "i");
 
-        let suggs = this._items.filter(i => {
-            i.match = matcher.exec(i.path || i.name);
-            return !!i.match;
-        }).map(i => CmdUtils.makeSugg(i.path || i.name, i.path || i.name, null,
+            let suggs = this._items.filter(i => {
+                i.match = matcher.exec(i.path || i.name);
+                return !!i.match;
+            }).map(i => CmdUtils.makeSugg(i.path || i.name, i.path || i.name, null,
                 CmdUtils.matchScore(i.match), selectionIndices));
 
-        if (textSugg = CmdUtils.makeSugg(text, html, null, suggs.length? .001: 1, selectionIndices))
-            suggs.push(textSugg);
+            let textSugg = CmdUtils.makeSugg(text, html, null, suggs.length ? .001 : 1, selectionIndices);
+            if (textSugg)
+                suggs.push(textSugg);
 
-        if (suggs.length > 0)
-            return suggs;
+            if (suggs.length > 0)
+                return suggs;
+        }
 
         return {};
     }
@@ -139,9 +141,7 @@
 
 
     function updateShelfSuggestions() {
-        console.log("updating shelves")
         scrapyardSend("SCRAPYARD_LIST_SHELVES").then(shelves => {
-            console.log(shelves)
             if (shelves) {
                 noun_scrapyard_shelf._items.length = 0;
                 shelves.forEach(s => noun_scrapyard_shelf._items.push(s));
@@ -151,9 +151,7 @@
 
 
     function updateGroupSuggestions() {
-        console.log("updating groups")
         scrapyardSend("SCRAPYARD_LIST_GROUPS").then(groups => {
-            console.log(groups)
             if (groups) {
                 noun_scrapyard_group._items.length = 0;
                 groups.forEach(g => noun_scrapyard_group._items.push(g));
