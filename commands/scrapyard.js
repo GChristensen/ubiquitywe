@@ -139,7 +139,9 @@
 
 
     function updateShelfSuggestions() {
+        console.log("updating shelves")
         scrapyardSend("SCRAPYARD_LIST_SHELVES").then(shelves => {
+            console.log(shelves)
             if (shelves) {
                 noun_scrapyard_shelf._items.length = 0;
                 shelves.forEach(s => noun_scrapyard_shelf._items.push(s));
@@ -149,7 +151,9 @@
 
 
     function updateGroupSuggestions() {
+        console.log("updating groups")
         scrapyardSend("SCRAPYARD_LIST_GROUPS").then(groups => {
+            console.log(groups)
             if (groups) {
                 noun_scrapyard_group._items.length = 0;
                 groups.forEach(g => noun_scrapyard_group._items.push(g));
@@ -593,7 +597,7 @@
                     }
                 });
 
-            if (noun_scrapyard_group._items && !noun_scrapyard_group._items.includes(payload.path)) {
+            if (payload.path && noun_scrapyard_group._items && !noun_scrapyard_group._items.includes(payload.path)) {
                 noun_scrapyard_group._items.push(payload.path);
             }
         };
