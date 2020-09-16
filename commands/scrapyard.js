@@ -56,7 +56,7 @@
 
             let suggs = this._items.filter(i => {
                 i.match = matcher.exec(i.path || i.name);
-                return !!i.match;
+                return (i.path || i.name) && i.match;
             }).map(i => CmdUtils.makeSugg(i.path || i.name, i.path || i.name, null,
                 i.match.input? CmdUtils.matchScore(i.match): .0001, selectionIndices));
 
