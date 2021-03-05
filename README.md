@@ -26,7 +26,7 @@ the new Firefox Quantum. The first attempts to resurrect Ubiquity came from the 
 of Opera browser ([ubiquity-opera](https://github.com/cosimo/ubiquity-opera/blob/master/ubiquity.js))
  and continued on Google Chrome ([UbiChr](https://github.com/rostok/ubichr)).
 But they lacked the natural language parser which gave Ubiquity all
-its superpowers. So, I have taken UbiChr (which is simple as AK-47 internally), 
+its superpowers. So, I have taken UbiChr,
 NL-parser from the latest Ubiquity, combined them, added bells and whistles, and the fully functional 
 new Ubiquity went back to Firefox. 
 This means that it is now possible to port any "legacy" commands (that are still compatible with WebExtension APIs) 

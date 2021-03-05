@@ -1,11 +1,11 @@
 {
-    const JAVLIB_SEARCH_URL = "http://www.javlibrary.com/en/vl_searchbyid.php?keyword=";
+    const JAVLIB_SEARCH_URL = "https://www.javlibrary.com/en/vl_searchbyid.php?keyword=";
 
     function fix_href(a, return_url) {
         if (a) {
             let tail = a.href.split("/");
             tail = tail[tail.length - 1];
-            a.href = "http://www.javlibrary.com/en/" + tail;
+            a.href = "https://www.javlibrary.com/en/" + tail;
 
             return return_url ? a.href : a.outerHTML;
         }
@@ -54,7 +54,7 @@
             if (alt_img) {
                 let alt_url_match = alt_img.match(/['"](https?:)?(\/\/)?([^'"]+)['"]/);
                 if (alt_url_match)
-                    $(pblock).find("#javlib-cover").on("error", (e) => {e.target.src = "http://" + alt_url_match[3]});
+                    $(pblock).find("#javlib-cover").on("error", (e) => {e.target.src = "https://" + alt_url_match[3]});
             }
         }
         else if (page.find(".videos .video").length > 0) {
@@ -93,7 +93,7 @@
 
                         chrome.tabs.create({
                             active: false,
-                            url: "http://www.javlibrary.com/en?__seed=" + seed
+                            url: "https://www.javlibrary.com/en/" // + "?__seed=" + seed
                         }, new_tab => {
                             let listener = (id, changed, tab) => {
                                 if (id === new_tab.id && changed.title && changed.title.includes("JAVLibrary")) {
@@ -123,7 +123,7 @@
         names: ["javlibrary", "idols"],
         uuid: "2464CA49-78EF-425E-8A49-ED5F5EA121D0",
         argument: [{role: "object", nountype: noun_arb_text, label: "movie code"}],
-        description: "Search for movie information at <a href='http://javlibrary.com/en'>javlibrary</a>.",
+        description: "Search for movie information at <a href='https://www.javlibrary.com/en'>javlibrary</a>.",
         help: `Try: <b>javlib</b> <i>star-699</i>`,
         icon: "/commands/more/jav.png",
         builtIn: true,

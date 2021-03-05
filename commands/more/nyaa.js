@@ -139,7 +139,7 @@
             self._pantsuRequest.abort();
         }
 
-        let pantsuURI = "https://" + server + ".pantsu.cat/search?c=_&s=0&limit=50&userID=0&q=" + id_encoded;
+        let pantsuURI = "https://" + server + ".nyaa.net/search?c=_&s=0&limit=50&userID=0&q=" + id_encoded;
         self._pantsuRequest = new XMLHttpRequest();
         self._pantsuRequest.responseType = "document";
         self._pantsuRequest.open("GET", pantsuURI, true);
