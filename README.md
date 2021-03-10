@@ -4,7 +4,7 @@ A natural language interface for web browsers.
 
 # DISCONTINUED 
 
-Please see [iShell](https://gchristensen.github.io/ishell/).
+Please see [iShell](https://github.com/GChristensen/ishell#readme).
 
 #### History
 
