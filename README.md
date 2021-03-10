@@ -2,7 +2,9 @@
 
 A natural language interface for web browsers.
 
-This is a development page. Please visit the main site at: https://gchristensen.github.io/ubiquitywe/
+# DISCONTINUED 
+
+Please see [iShell](https://gchristensen.github.io/ishell/).
 
 #### History
 
@@ -91,20 +93,3 @@ should be pretty easy to port one).
 ##### 31.07.2019 (v.0.3.1.1)
 
 * Disabled 'maps' command due to the lack of free public Google Maps API.
-
-##### 30.07.2019 (v.0.3.1.0)
-
-* Improved several commands.
-* Public command API updates.
-
-##### 30.05.2019 (v.0.3.0.0)
-
-* Added [Scrapyard](https://gchristensen.github.io/scrapyard/) commands.
-* Added Libgen command.
-* Added Scihub command.
-* Improved HTML selection acquisition.
-
-#### TODO
-
-* Redesign/refactor UbiquityWE in component-based architecture.
-* I18N.
