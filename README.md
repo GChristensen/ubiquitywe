@@ -9,19 +9,18 @@ Please see [iShell](https://github.com/GChristensen/ishell#readme).
 #### History
 
 The [original Ubiquity](https://wiki.mozilla.org/Labs/Ubiquity) was a promising project by Mozilla aimed to familiarize
-masses with natural language user interfaces. But eventually, it went popular only within a community of handful of
+masses with natural language user interfaces. But eventually, it went popular only within a community of
 geeks and has been abandoned, although, the [impressive
 repository](https://wiki.mozilla.org/Labs/Ubiquity/Commands_In_The_Wild) of commands still remains. 
 You have been meant to subscribe them to get updates automatically, but subscription model has ceased
 with the original ubiquity, and due to the volatile nature of the Web, you will hardly find a working command there.
-Nevertheless, Ubiquity is still immensely useful if
+Nevertheless, UbiquityWE is still immensely useful if
 you are able to write JavaScript to automate things you have (web)API for, to make intricate org-mode protocol capture
 schemes, etc., etc.
 
 After Mozilla had introduced breaking changes into Firefox APIs, Satoshi Murakami
 ([satyr](http://profile.hatena.ne.jp/murky-satyr/) - one of the creators of Ubiquity) became a maintainer who galvanized 
 Ubiquity until the last days of Firefox as we knew it (i.e. with "legacy" addon support).   
- 
 
 Unfortunately, almost all codebase of the original ubiquity became not functional in 
 the new Firefox Quantum. The first attempts to resurrect Ubiquity came from the users 
@@ -29,11 +28,10 @@ of Opera browser ([ubiquity-opera](https://github.com/cosimo/ubiquity-opera/blob
  and continued on Google Chrome ([UbiChr](https://github.com/rostok/ubichr)).
 But they lacked the natural language parser which gave Ubiquity all
 its superpowers. So, I have taken UbiChr,
-NL-parser from the latest Ubiquity, combined them, added bells and whistles, and the fully functional 
+NL-parser from the Ubiquity by satyr, combined them, added bells and whistles, and the fully functional 
 new Ubiquity went back to Firefox. 
 This means that it is now possible to port any "legacy" commands (that are still compatible with WebExtension APIs) 
-to Firefox Quantum with minimal changes. 
- 
+to Firefox Quantum with minimal changes.  
 
 #### Source code
 
@@ -75,7 +73,7 @@ there are some notable differences which emerge, in part, from Firefox Quantum l
  into context menu. An RFC 4122 v4 complaint UUID is generated automatically for commands
  inserted through command editor templates.
 * Since there is no sandboxed evaluation available in Firefox WebExtensions, the
-Bin persistent storage interface is reachable through command execute/preview handler arguments.
+Bin persistent storage interface is reachable only through arguments of execute/preview handler methods.
 Insert the "full-featured" command template at UbiquityWE command editor for an example.
 * Some original Utils/CmdUtils API is not implemented because there are no such possibilities
 in Firefox Quantum or no easily reachable/public web API available anymore (which 
