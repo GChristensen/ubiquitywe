@@ -33,7 +33,7 @@ combined them, added bells and whistles, and the fully-functional new Ubiquity w
 This means that it is possible to port any "legacy" commands (that are still compatible with WebExtension APIs) 
 to Firefox Quantum with minimal changes. The new [iShell](https://gchristensen.github.io/ishell/) project goes beyond this, 
 providing the brand-new command authoring APIs, based on the modern language features, that have not existed when the original
-Ubuquity was created.
+Ubiquity was created.
 
 #### Source code
 
