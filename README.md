@@ -44,7 +44,7 @@ Ubuquity was created.
 
 #### NL Parsers
 
-Just out of curiosity I have ported two parsers: [Parser 2](https://wiki.mozilla.org/Labs/Ubiquity/Parser_2) 
+Just out of curiosity I have ported two parsers: the [Parser 2](https://wiki.mozilla.org/Labs/Ubiquity/Parser_2) 
 of the original Ubiquity and satyr's parser (which I call Parser 3). The former is not so
 good in the terms of usability but superior in some linguistic aspects. Parser 3 is more handy, 
 although it does not allow command names with whitespaces and uses "Hagure Metal" function to score suggestions
@@ -68,8 +68,8 @@ although it does not allow command names with whitespaces and uses "Hagure Metal
 Although UbiquityWE is aimed to retain resemblance with the original Ubiquity as much as possible,
 there are some notable differences which emerge, in part, from Firefox Quantum limitations:
 
-* Because there is no command subscription model anymore which used subscription URLs to identify commands, each command is required to
- have an UUID to work properly.
+* Because there is no command subscription model anymore, which used subscription URLs to identify commands, each command is required to
+ have a UUID to work properly.
 * The Bin persistent storage interface is reachable only through the last arguments of execute/preview handler methods and is wrapped in an object.
 Insert the "full-featured" command template at UbiquityWE command editor for an example.
 * Some original Utils/CmdUtils API is not implemented because there are no such possibilities
