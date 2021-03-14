@@ -128,6 +128,8 @@ Utils.getPref("scrapyardID", scrapyardID => {
     });
 
     function checkForScrapyard() {
+        chrome.storage.local.set({ 'lastCmd': ""});
+
         chrome.runtime.sendMessage(CmdUtils.SCRAPYARD_ID, {type: "SCRAPYARD_GET_VERSION"}, version => {
             if (version) {
                 Utils.setPref("scrapyardPresents", true);

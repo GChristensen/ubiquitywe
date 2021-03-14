@@ -139,17 +139,31 @@ function ubiq_execute(input) {
     }
 }
 
+
+let msg_firefox = `<span style="color: #fa8072; font-weight: bold;">The development of UbiquityWE is being discontinued.</span>
+                   Please see <a href="https://gchristensen.github.io/ishell/" target="_blank" style="color: #73c2fb;">iShell</a> 
+                   for more features and new APIs. Officially available on 
+                   <a href="https://addons.mozilla.org/en-US/firefox/addon/ishell/" target="_blank" style="color: #73c2fb;">AMO</a>.`
+
+let msg_chrome = `<p style="text-align: justify; padding-right: 10px;"><span style="color: #fa8072; font-weight: bold;">The development of UbiquityWE is being discontinued.</span>
+                   The addon will not be compatible with <a href="https://developer.chrome.com/docs/extensions/mv3/intro/"  style="color: #73c2fb;">Chrome Manifest v3<a/>
+                   due to technical reasons.
+                   Please consider switching to Firefox and its <a href="https://gchristensen.github.io/ishell/" target="_blank" style="color: #73c2fb;">iShell Extension</a> 
+                   for more features and new APIs.</p>`
+
 function ubiq_help() {
-    var html = "<div id='ubiq-help-wrapper'>Type the name of a command and press Enter to execute it. "
-        + "Use <b>help</b> command for assistance.";
+    var html = "<div id='ubiq-help-wrapper' style='height: 100%; width: 80%'>Type the name of a command and press Enter to execute it. "
+        + "Use the <b>help</b> command for assistance.";
     html += "<p>";
     html += "<div class='ubiq-help-heading'>Keyboard Shortcuts</div>";
-    html += "<span class='keys'>Ctrl+C</span> - copy preview to clipboard<br>";
-    html += "<span class='keys'>Ctrl+Alt+Enter</span> - add selected command to context menu<br>";
-    html += "<span class='keys'>Ctrl+Alt+\\</span> - open command history<br>";
-    html += "<span class='keys'>Ctrl+Alt+&ltkey&gt;</span> - select list item prefixed with &ltkey&gt;<br>";
+    html += "<span class='keys'>Ctrl+C</span> - copy the preview content to clipboard<br>";
+    html += "<span class='keys'>Ctrl+Alt+Enter</span> - add the selected command to context menu<br>";
+    html += "<span class='keys'>Ctrl+Alt+\\</span> - show command history<br>";
+    html += "<span class='keys'>Ctrl+Alt+&ltkey&gt;</span> - select the list item prefixed with the &ltkey&gt;<br>";
     html += "<span class='keys'>&#8593;/&#8595;</span> - cycle through command suggestions<br>";
-    html += "<span class='keys'>F5</span> - reload the extension</div>";
+    html += "<span class='keys'>F5</span> - reload the extension</p>";
+    html += `<div style="position: absolute; left: 0; rigth: 0; bottom: 20px">${CmdUtils.BROWSER === "Firefox"? msg_firefox: msg_chrome}</div>`;
+
 
     ubiq_set_preview(html);
 }

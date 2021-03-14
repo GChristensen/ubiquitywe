@@ -1,5 +1,5 @@
 {
-    "version": "0.3.1.30",
+    "version": "0.3.1.31",
     "name": "Ubiquity WebExtension",
     "short_name": "UbiquityWE",
     "homepage_url": "https://gchristensen.github.io/ubiquitywe/",
@@ -58,10 +58,11 @@
     "commands": {
         "_execute_browser_action": {
             "suggested_key": {
-                "chromeos": "Ctrl+Space",
-                "linux": "Ctrl+Space",
-                "mac": "Command+Space",
-                "windows": "Ctrl+Space"
+              "default": "Ctrl+Space",
+              "chromeos": "Ctrl+Space",
+              "linux": "Ctrl+Space",
+              "mac": "Command+Space",
+              "windows": "Ctrl+Space"
             }
         }
     },
