@@ -39,7 +39,7 @@ Ubuquity was created.
 
 * Source code of the original Ubiquity by Mozilla: https://github.com/mozilla/ubiquity
 * Source code of the latest Ubiquity by satyr: https://bitbucket.org/satyr/ubiquity 
-  (it seems that it is missing now, the clone may be found [here](https://github.com/GChristensen/ubiquity))
+  (it seems that it is missing now, a clone may be found [here](https://github.com/GChristensen/ubiquity))
 * Source code of the original UbiChr: https://github.com/rostok/ubichr
 
 #### NL Parsers
