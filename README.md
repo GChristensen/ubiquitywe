@@ -2,7 +2,7 @@
 
 # DISCONTINUED 
 
-The add-on was an experimental descendant of the original [Ubiquity](https://wiki.mozilla.org/Labs/Ubiquity)
+UbiquityWE was an experimental descendant of the original [Ubiquity](https://wiki.mozilla.org/Labs/Ubiquity)
 project by Mozilla. Please see the new [iShell](https://gchristensen.github.io/ishell/) for more features and APIs.
 
 #### History

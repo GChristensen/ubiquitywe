@@ -148,7 +148,7 @@ let msg_firefox = `<span style="color: #fa8072; font-weight: bold;">The developm
 let msg_chrome = `<p style="text-align: justify; padding-right: 10px;"><span style="color: #fa8072; font-weight: bold;">The development of UbiquityWE is being discontinued.</span>
                    The addon will not be compatible with <a href="https://developer.chrome.com/docs/extensions/mv3/intro/"  style="color: #73c2fb;">Chrome Manifest v3<a/>
                    due to technical reasons.
-                   Please consider switching to Firefox and its <a href="https://gchristensen.github.io/ishell/" target="_blank" style="color: #73c2fb;">iShell Extension</a> 
+                   Please consider switching to <a href="https://firefox.com"  style="color: #73c2fb;">Firefox</a> and its <a href="https://gchristensen.github.io/ishell/" target="_blank" style="color: #73c2fb;">iShell Extension</a> 
                    for more features and new APIs.</p>`
 
 function ubiq_help() {
