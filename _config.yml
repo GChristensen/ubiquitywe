@@ -1,4 +1,4 @@
 theme: jekyll-theme-minimal
 title: Ubiquity WebExtension
 logo: res/icons/icon-128.png
-description: A natural language interface for web browsers
+description: A text command interface for web browsers
