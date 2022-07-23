@@ -342,7 +342,7 @@ Utils.regexp = function(pattern, flags) {
         return RegExp(pattern, flags);
     } catch (e) {
         if (e instanceof SyntaxError)
-            return RegExp(regexp.quote(pattern), flags);
+            return RegExp(Utils.regexp.quote(pattern), flags);
     }
 };
 

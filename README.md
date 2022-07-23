@@ -5,7 +5,13 @@
 UbiquityWE was an experimental descendant of the original [Ubiquity](https://wiki.mozilla.org/Labs/Ubiquity)
 project by Mozilla. Please see the new [iShell](https://gchristensen.github.io/ishell/) for more features and APIs.
 
-#### History
+# IMPORTANT
+
+This project allows to experiment with both the original and modern Ubiquity parsers.
+iShell only support the modern one. To enable the original parser type `enable original parser` 
+in the command line and press Enter. Type `disable original parser` to disable it.
+
+### History
 
 The original [Ubiquity](https://wiki.mozilla.org/Labs/Ubiquity) Firefox extension was a natural language interface developed by Mozilla, 
 where you were able to give text commands to the browser through a special popup input window.
@@ -35,14 +41,14 @@ to Firefox Quantum with minimal changes. The new [iShell](https://gchristensen.g
 providing the brand-new command authoring APIs, based on the modern language features, that have not existed when the original
 Ubiquity was created.
 
-#### Source code
+### Source code
 
 * Source code of the original Ubiquity by Mozilla: https://github.com/mozilla/ubiquity
 * Source code of the latest Ubiquity by satyr: https://bitbucket.org/satyr/ubiquity 
   (it seems that it is missing now, a clone may be found [here](https://github.com/GChristensen/ubiquity))
 * Source code of the original UbiChr: https://github.com/rostok/ubichr
 
-#### NL Parsers
+### NL Parsers
 
 Just out of curiosity I have ported two parsers: the [Parser 2](https://wiki.mozilla.org/Labs/Ubiquity/Parser_2) 
 of the original Ubiquity and satyr's parser (which I call Parser 3). The former is not so
@@ -51,19 +57,19 @@ although it does not allow command names with whitespaces and uses "Hagure Metal
 (if you want to know how exactly it works, ask satyr).
 
  
-#### Additional functionality not found in the original Ubiquity
+### Additional functionality not found in the original Ubiquity
 
 * New parser prepositions: 'by' (cause) and 'for' (subject).
 * Ability to add commands to browser context menu.
 * User command categories.
 
-#### Additional functionality not found in the original UbiChr
+### Additional functionality not found in the original UbiChr
 
 * Natural language parser from the original Ubiquity.
 * Elaborate setting pages/tutorial/API reference.
 * Command history.
 
-#### Differences with the original Ubiquity
+### Differences with the original Ubiquity
 
 Although UbiquityWE is aimed to retain resemblance with the original Ubiquity as much as possible,
 there are some notable differences which emerge, in part, from Firefox Quantum limitations:
@@ -77,7 +83,7 @@ in Firefox Quantum or no easily reachable/public web API available anymore (whic
 was used, for example, by some built-in noun types). 
 This means, that porting of existing commands to UbiquityWE will require some effort.
 
-#### Differences with the original UbiChr
+### Differences with the original UbiChr
 
 * No backward compatibility with existing parserless UbiChr commands (although, it
 should be pretty easy to port one).
